@@ -1,0 +1,22 @@
+- hosts: LB
+  vars:
+  - lb_port: 8080
+  - web_port: 80
+  tasks:
+  - name: "installing haproxy"
+    package:
+      name: "haproxy"
+      state: present
+  - name: configuring haproxy.cfg file
+    template:     
+      src: "haproxy.cfg"
+      dest: "/etc/haproxy/haproxy.cfg"
+  - name: "starting haproxy services"  
+    service: 
+      name: "haproxy"
+      state: started
+  handlers:
+  - name: "restarting httpd"        
+    service:
+      name: httpd
+      state: restarted   

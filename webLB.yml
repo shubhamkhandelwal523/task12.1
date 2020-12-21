@@ -1,0 +1,21 @@
+- hosts: webLB
+  vars:
+    web_port: 80
+  tasks: 
+  - name: "installing apache httpd software"
+    package:
+      name: httpd
+      state: present
+  - name: "copying content"
+    copy:
+      content: "Website using load balancer\n"
+      dest: /var/www/html/Load.html
+  - name: "starting httpd services"
+    service:
+      name: httpd
+      state: started 
+  handlers:
+  - name: Restarted httpd
+    service: 
+      name: httpd
+      state: restarted 
